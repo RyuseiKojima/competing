@@ -9,6 +9,9 @@ public class A {
         int b = sc.nextInt();
         int c = sc.nextInt();
         int d = sc.nextInt();
+
+        sc.close();
+
         if (a > c) {
             System.out.println("Yes");
         } else if (c > a) {

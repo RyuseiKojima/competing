@@ -11,6 +11,8 @@ public class B {
         List<String> sets = new ArrayList<>();
         String s = sc.next();
 
+        sc.close();
+
         for (int i = 0; i < s.length(); i++) {
             for (int j = i; j < s.length(); j++) {
                 String val = s.substring(i, j+1);

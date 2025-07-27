@@ -33,6 +33,8 @@ public class D {
             graph.get(A).add(new Edge(B, W));
         }
 
+        sc.close();
+
         // dist[node][xor] = 到達済みかどうか
         boolean[][] visited = new boolean[N + 1][1024];
         Queue<int[]> queue = new ArrayDeque<>();
