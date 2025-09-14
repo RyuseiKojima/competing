@@ -1,41 +1,56 @@
 package atCoder.ABC423;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 class D {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
         int N = sc.nextInt();
         int K = sc.nextInt();
+        int[] A = new int[N + 1];
+        int[] B = new int[N + 1];
+        int[] C = new int[N + 1];
 
-        List<Integer> ans = new ArrayList<>();
-        ans.add(K);
+        for (int i = 1; i <= N; i++) {
+            A[i] = sc.nextInt();
+            B[i] = sc.nextInt();
+            C[i] = sc.nextInt();
+        }
+        sc.close();
 
-        // N 回分割を繰り返す
-        for (int n = 0; n < N; n++) {
-            List<Integer> nxt = new ArrayList<>();
-            for (int a : ans) {
-                nxt.add(a / 2); // a を 2 分割
-                nxt.add(a - a / 2); // 切り上げた方
-            }
-            ans = nxt; // 更新
+        Queue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o[0]));
+        for (int i = 1; i <= N; i++) {
+            queue.offer(new int[]{A[i], B[i], C[i]});
         }
 
-        // max と min を求める
-        int max = Collections.max(ans);
-        int min = Collections.min(ans);
+        // 退店時間と退店人数を管理
+        PriorityQueue<long[]> leaveQueue = new PriorityQueue<>(Comparator.comparingLong(o -> o[0]));
+        long currentTime = 0;
+        long currentCapacity = 0;
 
-        System.out.println(max - min);
+        while (!queue.isEmpty()) {
+            int[] customer = queue.poll();
+            long arrivalTime = customer[0];
+            int stayTime = customer[1];
+            int groupSize = customer[2];
 
-        // 最終的な配列を出力
-        System.out.println(ans.stream()
-                .map(String::valueOf)
-                .collect(java.util.stream.Collectors.joining(" ")));
+            if (currentCapacity + groupSize > K) {
+                // 退店時間が一番早いグループを退店させる
+                while (!leaveQueue.isEmpty()) {
+                    long[] leaveGroup = leaveQueue.poll();
+                    long leaveTime = leaveGroup[0];
+                    long leaveSize = leaveGroup[1];
+                    currentCapacity -= leaveSize;
+                    currentTime = Math.max(currentTime, leaveTime);
+                    if (currentCapacity + groupSize <= K) {
+                        break;
+                    }
+                }
+            }
+            currentTime = Math.max(currentTime, arrivalTime);
+            currentCapacity += groupSize;
+            System.out.println(currentTime);
 
-        sc.close();
+            leaveQueue.offer(new long[]{currentTime + stayTime, groupSize});
+        }
     }
 }
