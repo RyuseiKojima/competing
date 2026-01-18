@@ -310,7 +310,6 @@ class Cheat {
 		public MaximumFlow(int n) {
 			this.n = n;
 			used = new boolean[n + 1];
-			@SuppressWarnings("unchecked")
 			ArrayList<FlowEdge>[] G = new ArrayList[n + 1];
 			for (int i = 1; i <= n; i++) {
 				G[i] = new ArrayList<FlowEdge>();

@@ -9,7 +9,6 @@ class C {
         int N = sc.nextInt();
 		
 		// 隣接リストの作成
-		@SuppressWarnings("unchecked")
 		HashSet<Integer>[] G = new HashSet[N + 1];
 		for (int i = 0; i <= N; i++) {
 			G[i] = new HashSet<Integer>();
